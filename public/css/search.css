@@ -1,0 +1,10 @@
+#searchResults {
+    background-color: rgb(240, 240, 240);
+    height: 400px;
+    width: 100%;
+    overflow-y: scroll; 
+}
+
+.activeResult {
+    background-color: orange;
+}

@@ -1,0 +1,31 @@
+input {
+    width: 100%;
+}
+
+textarea {
+    height: 800px;
+}
+
+pre {
+    color: white;
+    background-color: #333;
+    padding-left: 8px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+tr a {
+    display: block;
+    text-decoration: none;
+}
+
+td a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.indent {
+    padding-left: 30px;
+}
