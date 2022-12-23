@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  traefik:
+    image: "traefik:v2.9"
+    container_name: "notes_traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "4481:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  ui:
+    container_name: "ui"
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    volumes:
+      - ./ui:/usr/src/app/
+    labels:
+      - "traefik.http.routers.ui-router.entrypoints=web"
+      - "traefik.http.routers.ui-router.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.ui-router.service=ui-service"
+      - "traefik.http.services.ui-service.loadbalancer.server.port=3000"
+  api:
+    container_name: "api"
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.http.routers.api-router.entrypoints=web"
+      - "traefik.http.routers.api-router.rule=PathPrefix(`/api`)"
+      - "traefik.http.routers.api-router.service=api-service"
+      - "traefik.http.services.api-service.loadbalancer.server.port=4080"
+volumes:
+  mysql-volume:

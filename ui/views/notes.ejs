@@ -1,0 +1,12 @@
+<%- include('./inc/begin.ejs') %>
+                <% if (categoryList.length > 0) { %>
+                    <% for (const category of categoryList) { %>
+                    <h2><%= category.text %></h2>
+                        <% for (const note of categoryList[category.id].preparedNoteList) { %>
+                        <%- include('./inc/note-preview.ejs', { note: note }) %>
+                        <% } %>
+                    <%  } %>
+                <% } else { %>
+                    <p>No notes yet</p>
+                <% } %>
+<%- include('./inc/end.ejs') %>

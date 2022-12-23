@@ -1,0 +1,13 @@
+<%- include("../inc/begin.ejs") %>
+                    <form class="mb-3" action="/admin/add-note" method="POST">
+                        <label for="noteTitle" class="form-label">title</label>
+                        <input type="text" name="noteTitle" value="" id="noteTitle" class="form-control" autofocus>
+                        <select name="noteCategory" id="selectInputCategory" class="form-select" aria-label="select a category">
+                            <% for (const cat of categoryList) { %>
+                            <option value="<%= cat.id %>"><%= cat.text %></option>
+                            <% } %>
+                        </select>
+                        <textarea name="noteBody" value="type here" id="noteBody" class="form-control"></textarea>
+                        <input type="submit" value="go" class="btn btn-primary">
+                    </form>
+<%- include("../inc/end.ejs") %>

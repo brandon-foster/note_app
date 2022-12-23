@@ -1,0 +1,18 @@
+<%- include("../inc/begin.ejs") %>
+                    <form class="mb-3" action="/admin/edit-note" method="POST">
+                        <input type="hidden" name="noteId" value="<%= note.noteId %>">
+                        <label for="noteTitle" class="form-label">title</label>
+                        <input type="text" name="noteTitle" id="noteTitle" class="form-control" value="<%= note.noteTitle %>" autofocus>
+                        <select name="noteCategory" id="selectInputCategory" class="form-select" value="<%= note.noteCategory %>" aria-label="select a category">
+                            <% for (const cat of categoryList) { %>
+                                <% if (parseInt(note.noteCategory) === cat.id) { %>
+                                    <option selected value="<%= cat.id %>"><%= cat.text %></option>
+                                <% } else { %>
+                                    <option value="<%= cat.id %>"><%= cat.text %></option>
+                                <% } %>
+                            <% } %>
+                        </select>
+                        <textarea name="noteBody" id="noteBody" class="form-control"><%= note.noteBody %></textarea>
+                        <input type="submit" value="go" class="btn btn-primary">
+                    </form>
+<%- include("../inc/end.ejs") %>
