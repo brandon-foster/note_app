@@ -19,5 +19,10 @@ module.exports = (function createCategoryRepository() {
             }
             return list[id];
         },
+        append: async function(category) {
+            const list = await fileio.parseJson(filename);
+            list.push(category);
+            fileio.writeJson(filename, JSON.stringify(list));
+        },
     };
 }());

@@ -1,7 +1,9 @@
 <%- include('./inc/begin.ejs') %>
                 <% if (categoryList.length > 0) { %>
                     <% for (const category of categoryList) { %>
-                    <h2><%= category.text %></h2>
+                        <h2 class="mt-5 px-5 py-4 text-bg-secondary rounded text-center" id="<%= category.textEncoded %>">
+                            <%= category.text %>
+                        </h2>
                         <% for (const note of categoryList[category.id].preparedNoteList) { %>
                         <%- include('./inc/note-preview.ejs', { note: note }) %>
                         <% } %>

@@ -1,9 +1,7 @@
-                        <div class="mt-4 pt-5 px-5 pb-4 text-bg-dark rounded-top">
-                            <h3 class="pb-4"><a href="#" class="text-light"><%= note.noteTitle %></a></h3>
-                            <div class="badge bg-secondary">put tags here</div>
-                            <hr>
-                            <a class="btn btn-outline-light" href="/admin/edit-note/<%= note.noteId %>" role="button">edit</a>
-                        </div>
-                        <div class="mb-5 p-5 bg-light border rounded-bottom">
-                        <%- note.noteBody %>
-                        </div>
+                    <div class="mt-4 px-5 py-4 border rounded">
+                        <!-- <h3 class="mb-5"><a href="/notes/<%= note.noteId %>" class="text-dark"><%= note.noteTitle %></a></h3> -->
+                        <h3><a href="/notes/<%= note.noteId %>"><%= note.noteTitle %></a></h3>
+                        <!-- <hr> -->
+                        <a class="mt-3 btn btn-outline-secondary" href="/admin/edit-note/<%= note.noteId %>" role="button">edit</a>
+                        <!-- <div class="badge bg-secondary">put tags here</div> -->
+                    </div>

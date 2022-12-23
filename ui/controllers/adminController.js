@@ -50,3 +50,22 @@ exports.postEditNote = async (req, res, next) => {
     noteRepository.update(foundNote);
     res.redirect('/notes');
 };
+
+exports.getAddCategory = (req, res, next) => {
+    res.render('admin/add-category', viewBuilder()
+        .title('Add Category')
+        .navItems(navItems)
+        .activeNavItem(3)
+        .build()
+    );
+};
+
+exports.postAddCategory = async (req, res, next) => {
+    const cats = await categoryRepository.fetchAll();
+    const category = {
+        id: cats.length,
+        text: req.body.text,
+    };
+    categoryRepository.append(category);
+    res.redirect('/notes');
+};

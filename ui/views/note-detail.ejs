@@ -1,0 +1,8 @@
+<%- include('./inc/begin.ejs') %>
+                    <div class="mt-4 p-5">
+                        <a class="btn btn-outline-secondary" href="/admin/edit-note/<%= note.noteId %>" role="button">edit</a>
+                        <!-- <div class="badge bg-secondary">put tags here</div> -->
+                        <hr>
+                        <%- note.noteBody %>
+                    </div>
+<%- include('./inc/end.ejs') %>

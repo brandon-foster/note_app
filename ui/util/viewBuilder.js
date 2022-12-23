@@ -6,6 +6,7 @@ module.exports = function viewBuilder() {
         categoryList: [],
         noteList: [],
         note: null,
+        viewName: null,
     };
     return {
         title: function(s) {
@@ -30,6 +31,10 @@ module.exports = function viewBuilder() {
         },
         note: function(obj) {
             payload.note = obj;
+            return this;
+        },
+        viewName: function(s) {
+            payload.viewName = s;
             return this;
         },
         build: function build() {

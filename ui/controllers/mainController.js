@@ -1,9 +1,24 @@
 const showdown = require('showdown');
+showdown.setOption('tables', true);
 
 const viewBuilder = require('../util/viewBuilder');
 const navItems = require('../config/navItems');
 const noteRepository = require('../repository/noteRepository');
 const categoryRepository = require('../repository/categoryRepository');
+const prettifySegment = require('../util/prettifySegment');
+
+const converter = new showdown.Converter();
+
+function enhanceNote(note, categoryList) {
+    const matches = categoryList.filter(c => c.id === parseInt(note.noteCategory));
+    if (matches.length > 0) {
+        const category = matches[0];
+        note.noteCategoryText = category.text;
+        note.noteCategoryTextEncoded = prettifySegment(category.text);
+        note.noteBody = converter.makeHtml(note.noteBody)
+    }
+    return note;
+}
 
 exports.getIndexView = (req, res, next) => {
     res.render('home', viewBuilder()
@@ -17,22 +32,12 @@ exports.getIndexView = (req, res, next) => {
 exports.getNotesView = async (req, res, next) => {
     const categoryList = await categoryRepository.fetchAll();
     const rawNoteList = await noteRepository.fetchAll();
-    function enhanceNote(note, index) {
-        const matches = categoryList.filter(c => c.id === parseInt(note.noteCategory));
-        if (matches.length > 0) {
-            const category = matches[0];
-            note.noteCategoryText = category.text;
-            note.noteId = index;
-            const converter = new showdown.Converter();
-            note.noteBody = converter.makeHtml(note.noteBody)
-        }
-        return note;
-    }
     categoryList.forEach(c => {
         c.preparedNoteList = [];
         c.preparedNoteList = rawNoteList
-            .map((note, i) => enhanceNote(note, i))
+            .map((note, i) => enhanceNote(note, categoryList))
             .filter(n => parseInt(n.noteCategory) === c.id)
+        c.textEncoded = prettifySegment(c.text);
         return c;
     });
     performRender(categoryList);
@@ -45,4 +50,18 @@ exports.getNotesView = async (req, res, next) => {
             .build()
         );
     }
+};
+
+exports.getNoteDetailView = async (req, res, next) => {
+    const note = await noteRepository.findById(parseInt(req.params.id));
+    note.noteBody = converter.makeHtml(note.noteBody);
+    const categoryList = await categoryRepository.fetchAll();
+    res.render('note-detail', viewBuilder()
+        .title(note.noteTitle)
+        .navItems(navItems)
+        .activeNavItem(1)
+        .note(enhanceNote(note, categoryList))
+        .viewName('note-detail')
+        .build()
+    );
 };
