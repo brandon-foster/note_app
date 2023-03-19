@@ -4,18 +4,27 @@ const categoryRepository = require('../repository/categoryRepository');
 const noteRepository = require('../repository/noteRepository');
 const BASE_DIR = require('../config/baseDir');
 
+const OWNER = 'alice';
+
 exports.getAddNote = async (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect(`${BASE_DIR}/notes`);
+    }
     const categoryList = await categoryRepository.fetchAll();
     res.render('admin/add-note', viewBuilder()
         .title('Add Note')
         .navItems(navItems)
         .activeNavItem(2)
         .categoryList(categoryList)
+        .isLoggedIn(req.session.isLoggedIn)
         .build()
     );
 }
 
 exports.postAddNote = async (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect(`${BASE_DIR}/notes`);
+    }
     const noteList = await noteRepository.fetchAll();
     noteRepository.append({
         noteId: noteList.length,
@@ -27,6 +36,9 @@ exports.postAddNote = async (req, res, next) => {
 }
 
 exports.getEditNote = async (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect(`${BASE_DIR}/notes`);
+    }
     const categoryList = await categoryRepository.fetchAll();
     const noteList = await noteRepository.fetchAll();
     if (noteList.length > 0) {
@@ -37,6 +49,7 @@ exports.getEditNote = async (req, res, next) => {
             .activeNavItem(2)
             .categoryList(categoryList)
             .note(note)
+            .isLoggedIn(req.session.isLoggedIn)
             .build()
         );
     }
@@ -44,6 +57,9 @@ exports.getEditNote = async (req, res, next) => {
 };
 
 exports.postEditNote = async (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect(`${BASE_DIR}/notes`);
+    }
     const foundNote = await noteRepository.findById(req.body.noteId);
     foundNote.noteTitle = req.body.noteTitle;
     foundNote.noteCategory = req.body.noteCategory;
@@ -53,15 +69,22 @@ exports.postEditNote = async (req, res, next) => {
 };
 
 exports.getAddCategory = (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect(`${BASE_DIR}/notes`);
+    }
     res.render('admin/add-category', viewBuilder()
         .title('Add Category')
         .navItems(navItems)
         .activeNavItem(3)
+        .isLoggedIn(req.session.isLoggedIn)
         .build()
     );
 };
 
 exports.postAddCategory = async (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect(`${BASE_DIR}/notes`);
+    }
     const cats = await categoryRepository.fetchAll();
     const category = {
         id: cats.length,
@@ -70,3 +93,16 @@ exports.postAddCategory = async (req, res, next) => {
     categoryRepository.append(category);
     res.redirect(`${BASE_DIR}/notes`);
 };
+
+exports.postLogin = (req, res, next) => {
+    const session = req.session;
+    session.username = req.body.username;
+    session.isLoggedIn = session.username === OWNER;
+    res.redirect(`${BASE_DIR}/notes`);
+};
+
+exports.getLogout = (req, res, next) => {
+    req.session.username = null;
+    req.session.isLoggedIn = false;
+    res.redirect(`${BASE_DIR}/notes`);
+}

@@ -47,6 +47,7 @@ exports.getNotesView = async (req, res, next) => {
             .navItems(navItems)
             .activeNavItem(1)
             .categoryList(categoryList)
+            .isLoggedIn(req.session.isLoggedIn)
             .build()
         );
     }
@@ -103,6 +104,16 @@ exports.getNoteDetailView = async (req, res, next) => {
         .viewName('note-detail')
         .detailNavItems(extractDetailNavItems(note.noteBody))
         .jsModule('noteDetailModule.js')
+        .isLoggedIn(req.session.isLoggedIn)
+        .build()
+    );
+};
+
+exports.getLoginView = (req, res, next) => {
+    res.render('login', viewBuilder()
+        .title('Login')
+        .navItems(navItems)
+        .activeNavItem(4)
         .build()
     );
 };

@@ -9,5 +9,7 @@ router.get('/edit-note/:id', adminController.getEditNote);
 router.post('/edit-note', adminController.postEditNote);
 router.get('/add-category', adminController.getAddCategory);
 router.post('/add-category', adminController.postAddCategory);
+router.post('/login', adminController.postLogin);
+router.get('/logout', adminController.getLogout);
 
 module.exports = router;

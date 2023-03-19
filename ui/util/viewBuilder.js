@@ -13,6 +13,7 @@ module.exports = function viewBuilder() {
         jsModule: null,
         jsScripts: [],
         BASE_DIR: BASE_DIR,
+        isLoggedIn: null,
     };
     return {
         title: function(s) {
@@ -53,6 +54,10 @@ module.exports = function viewBuilder() {
         },
         jsModule: function (s) {
             payload.jsModule = s;
+            return this;
+        },
+        isLoggedIn: function (b) {
+            payload.isLoggedIn = b;
             return this;
         },
         build: function build() {

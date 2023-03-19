@@ -2,10 +2,28 @@
             <ul class='nav nav-pills'>
                 <% for (const navItem of navItems) { %>
                 <li class='nav-item'>
-                    <% if (activeNavItem === navItem.id) { %>
-                    <a class='nav-link active' href='<%= navItem.href %>'><%= navItem.displayText %></a>
+                    <% if (navItem.displayWhen === 'is not logged in') { %>
+                        <% if (isLoggedIn !== true) { %>
+                            <% if (activeNavItem === navItem.id) { %>
+                            <a class='nav-link active' href='<%= navItem.href %>'><%= navItem.displayText %></a>
+                            <% } else { %>
+                            <a class='nav-link' href='<%= navItem.href %>'><%= navItem.displayText %></a>
+                            <% } %>
+                        <% } %>
+                    <% } else if (navItem.displayWhen === 'is logged in') { %>
+                        <% if (isLoggedIn === true) { %>
+                            <% if (activeNavItem === navItem.id) { %>
+                            <a class='nav-link active' href='<%= navItem.href %>'><%= navItem.displayText %></a>
+                            <% } else { %>
+                            <a class='nav-link' href='<%= navItem.href %>'><%= navItem.displayText %></a>
+                            <% } %>
+                        <% } %>
                     <% } else { %>
-                    <a class='nav-link' href='<%= navItem.href %>'><%= navItem.displayText %></a>
+                        <% if (activeNavItem === navItem.id) { %>
+                        <a class='nav-link active' href='<%= navItem.href %>'><%= navItem.displayText %></a>
+                        <% } else { %>
+                        <a class='nav-link' href='<%= navItem.href %>'><%= navItem.displayText %></a>
+                        <% } %>
                     <% } %>
                 </li>
                 <% } %>

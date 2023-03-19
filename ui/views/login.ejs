@@ -1,0 +1,9 @@
+<%- include('./inc/begin.ejs') %>
+            <div class='row mt-5 mb-5'>
+                <div class='col-12'>
+                    <form class="mb-3" action="<%= BASE_DIR %>/admin/login" method="POST">
+                        <input type="text" name="username" value="" id="username" class="form-control" placeholder="username" autofocus>
+                        <input type="password" name="password" value="" id="password" class="form-control" placeholder="password" autofocus>
+                        <input type="submit" value="go" class="btn btn-primary">
+                    </form>
+<%- include('./inc/end.ejs') %>
