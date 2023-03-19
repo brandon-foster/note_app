@@ -8,7 +8,9 @@
                 <div class='col-9'>
                     <h1><%= pageTitle %></h1>
                     <div>
+                        <% if (isLoggedIn === true) { %>
                         <a class="btn btn-outline-secondary" href="<%= BASE_DIR %>/admin/edit-note/<%= note.noteId %>" role="button">edit</a>
+                        <% } %>
                         <!-- <div class="badge bg-secondary">put tags here</div> -->
                         <hr>
                         <%- note.noteBody %>
