@@ -1,7 +1,7 @@
 <%- include('./inc/begin.ejs') %>
             <div class='row mt-5'>
                 <% if (viewName === 'note-detail') { %>
-                <p><a href="<%= BASE_DIR %>/notes/#<%= note.noteCategoryTextEncoded %>">&lt; <%= note.noteCategoryText %></a></p>
+                <p><a href="<%= BASE_DIR %>/notes#<%= note.noteCategoryTextEncoded %>">&lt; <%= note.noteCategoryText %></a></p>
                 <% } %>
             </div>
             <div class='row'>
