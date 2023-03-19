@@ -18,6 +18,8 @@ services:
     build:
       context: ./ui
       dockerfile: Dockerfile
+    volumes:
+      - ./ui/data:/usr/src/app/data
     labels:
       - "traefik.http.routers.ui-router.entrypoints=web"
       - "traefik.http.routers.ui-router.rule=PathPrefix(`/napp`)"
