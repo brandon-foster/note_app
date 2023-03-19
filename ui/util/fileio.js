@@ -21,7 +21,11 @@ module.exports = (function createFileio() {
     };
 
     function writeJson(destinationFile, stringified) {
-        fs.writeFile(destinationFile, stringified, err => console.log(err));
+        fs.writeFile(destinationFile, stringified, err => {
+            if (err !== null) {
+                console.log(`fs.writeFile err: ${err}`);
+            }
+        });
     }
     return {
         parseJson: parseJson,
