@@ -4,6 +4,7 @@ const rootDir = require('../util/rootDir');
 const fileio = require('../util/fileio');
 
 const filename = path.join(rootDir, 'data', 'categoryList.json');
+const BACKUP_FILE = `${filename}.backup`;
 
 module.exports = (function createCategoryRepository() {
     return {
@@ -23,6 +24,7 @@ module.exports = (function createCategoryRepository() {
             const list = await fileio.parseJson(filename);
             list.push(category);
             fileio.writeJson(filename, JSON.stringify(list));
+            fileio.writeJson(BACKUP_FILE, JSON.stringify(list));
         },
     };
 }());
