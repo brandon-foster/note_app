@@ -29,3 +29,7 @@ td a:hover {
 .indent {
     padding-left: 30px;
 }
+
+.nav-link:hover {
+    background-color: #eee;
+}

@@ -1,8 +1,27 @@
 <%- include('./inc/begin.ejs') %>
-                    <div class="mt-4 p-5">
-                        <a class="btn btn-outline-secondary" href="/admin/edit-note/<%= note.noteId %>" role="button">edit</a>
+            <div class='row mt-5'>
+                <% if (viewName === 'note-detail') { %>
+                <p><a href="<%= BASE_DIR %>/notes/#<%= note.noteCategoryTextEncoded %>">&lt; <%= note.noteCategoryText %></a></p>
+                <% } %>
+            </div>
+            <div class='row'>
+                <div class='col-9'>
+                    <h1><%= pageTitle %></h1>
+                    <div>
+                        <a class="btn btn-outline-secondary" href="<%= BASE_DIR %>/admin/edit-note/<%= note.noteId %>" role="button">edit</a>
                         <!-- <div class="badge bg-secondary">put tags here</div> -->
                         <hr>
                         <%- note.noteBody %>
+                    </div>
+                </div>
+                <div class='col-3'>
+                    <div class="sideNavWrapper">
+                        <ul id="sideNav" class="nav nav-pills flex-column">
+                            <% for (const item of detailNavItems) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" data-heading="<%= item[0] %>" href='#<%= item[0] %>'><%= item[1] %></a>
+                            </li>
+                            <% } %>
+                        </ul>
                     </div>
 <%- include('./inc/end.ejs') %>

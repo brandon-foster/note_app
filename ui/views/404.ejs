@@ -1,2 +1,8 @@
 <%- include('./inc/begin.ejs') %>
+            <div class='row mt-5 mb-5'>
+                <div class='col-12'>
+                    <% if (viewName === 'note-detail') { %>
+                    <p><a href="/notes/#<%= note.noteCategoryTextEncoded %>"><%= note.noteCategoryText %></a></p>
+                    <% } %>
+
 <%- include('./inc/end.ejs') %>

@@ -56,12 +56,53 @@ exports.getNoteDetailView = async (req, res, next) => {
     const note = await noteRepository.findById(parseInt(req.params.id));
     note.noteBody = converter.makeHtml(note.noteBody);
     const categoryList = await categoryRepository.fetchAll();
+    function extractDetailNavItems(noteBody) {
+        function extractId(element) {
+            let curr = element;
+            const start = curr.indexOf('id="');
+            curr = curr.substring(start);
+            const start2 = curr.indexOf('"');
+            curr = curr.substring(start2);
+            curr = curr.substring(1);
+            const end = curr.indexOf('"');
+            curr = curr.substring(0, end);
+            return curr;
+        }
+        function extractInnerHtml(element) {
+            let curr = element;
+            const start = curr.indexOf('>');
+            curr = curr.substring(start + 1);            
+            const end = curr.indexOf('<');
+            curr = curr.substring(0, end);
+            return curr;
+        }
+        const idToInnerHtmlMap = new Map();
+        const lines = noteBody.split('\n');
+        lines.forEach(l => {
+            function matchesElement(elemName, html) {
+                if (html.length >= elemName.length + 2) {
+                    return elemName === html.substring(1, 1 + (elemName.length));
+                }
+                return false;
+            }
+            if (matchesElement('h2', l)) {
+                const id = extractId(l);
+                const innerHtml = extractInnerHtml(l);
+                if (innerHtml !== '') {
+                    idToInnerHtmlMap.set(id, innerHtml);
+                }
+            }
+        });
+        return idToInnerHtmlMap;
+    }
     res.render('note-detail', viewBuilder()
         .title(note.noteTitle)
         .navItems(navItems)
         .activeNavItem(1)
         .note(enhanceNote(note, categoryList))
         .viewName('note-detail')
+        .detailNavItems(extractDetailNavItems(note.noteBody))
+        .jsModule('noteDetailModule.js')
         .build()
     );
 };

@@ -2,6 +2,14 @@
             </div>
         </content>
     </div>
+    <% if (jsModule !== null) { %>
+    <script type="module" src="<%= BASE_DIR %>/js/<%= jsModule %>"></script>
+    <% } %>
+    <% if (jsScripts.length > 0) { %>
+        <% for (script of jsScripts) { %>
+    <script type="text/javascript" src="<%= BASE_DIR %>/js/<%= script %>"></script>
+        <% } %>
+    <% } %>
 </body>
 
 </html>

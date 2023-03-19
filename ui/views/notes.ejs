@@ -1,4 +1,10 @@
 <%- include('./inc/begin.ejs') %>
+            <div class='row mt-5 mb-5'>
+                <div class='col-12'>
+                    <% if (viewName === 'note-detail') { %>
+                    <p><a href="<%= BASE_DIR %>/notes/#<%= note.noteCategoryTextEncoded %>"><%= note.noteCategoryText %></a></p>
+                    <% } %>
+
                 <% if (categoryList.length > 0) { %>
                     <% for (const category of categoryList) { %>
                         <h2 class="mt-5 px-5 py-4 text-bg-secondary rounded text-center" id="<%= category.textEncoded %>">

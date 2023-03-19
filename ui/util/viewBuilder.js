@@ -1,3 +1,5 @@
+const BASE_DIR = require('../config/baseDir');
+
 module.exports = function viewBuilder() {
     const payload = {
         pageTitle: null,
@@ -7,6 +9,10 @@ module.exports = function viewBuilder() {
         noteList: [],
         note: null,
         viewName: null,
+        detailNavItems: [],
+        jsModule: null,
+        jsScripts: [],
+        BASE_DIR: BASE_DIR,
     };
     return {
         title: function(s) {
@@ -35,6 +41,18 @@ module.exports = function viewBuilder() {
         },
         viewName: function(s) {
             payload.viewName = s;
+            return this;
+        },
+        detailNavItems: function (arr) {
+            payload.detailNavItems = arr;
+            return this;
+        },
+        jsScripts: function (arr) {
+            payload.jsScripts = arr;
+            return this;
+        },
+        jsModule: function (s) {
+            payload.jsModule = s;
             return this;
         },
         build: function build() {

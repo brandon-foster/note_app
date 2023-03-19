@@ -1,7 +1,7 @@
 <%- include("../inc/begin.ejs") %>
-                    <form class="mb-3" action="/admin/add-category" method="POST">
-                        <label for="text" class="form-label">text</label>
-                        <input type="text" name="text" value="" id="text" class="form-control" autofocus>
+            <div class='row mt-5 mb-5'>
+                    <form class="mb-3" action="<%= BASE_DIR %>/admin/add-category" method="POST">
+                        <input type="text" name="text" value="" id="text" class="form-control" placeholder="category" autofocus>
                         <input type="submit" value="go" class="btn btn-primary">
                     </form>
 <%- include("../inc/end.ejs") %>

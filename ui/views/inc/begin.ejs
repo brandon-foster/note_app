@@ -6,11 +6,3 @@
     <div class='container'>
         <%- include('./nav.ejs') %>
         <content>
-            <div class='row mt-5 mb-5'>
-                <div class='col-12'>
-                    <% if (viewName === 'note-detail') { %>
-                    <p>back to <a href="/notes/#<%= note.noteCategoryTextEncoded %>"><%= note.noteCategoryText %></a></p>
-                    <% } %>
-                    <h1>
-                        <%= pageTitle %>
-                    </h1>

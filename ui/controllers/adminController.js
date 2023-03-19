@@ -2,6 +2,7 @@ const viewBuilder = require('../util/viewBuilder');
 const navItems = require('../config/navItems');
 const categoryRepository = require('../repository/categoryRepository');
 const noteRepository = require('../repository/noteRepository');
+const BASE_DIR = require('../config/baseDir');
 
 exports.getAddNote = async (req, res, next) => {
     const categoryList = await categoryRepository.fetchAll();
@@ -22,7 +23,7 @@ exports.postAddNote = async (req, res, next) => {
         noteCategory: req.body.noteCategory,
         noteBody: req.body.noteBody,
     });
-    res.redirect('/notes');
+    res.redirect(`${BASE_DIR}/notes`);
 }
 
 exports.getEditNote = async (req, res, next) => {
@@ -48,7 +49,7 @@ exports.postEditNote = async (req, res, next) => {
     foundNote.noteCategory = req.body.noteCategory;
     foundNote.noteBody = req.body.noteBody;
     noteRepository.update(foundNote);
-    res.redirect('/notes');
+    res.redirect(`${BASE_DIR}/notes`);
 };
 
 exports.getAddCategory = (req, res, next) => {
@@ -67,5 +68,5 @@ exports.postAddCategory = async (req, res, next) => {
         text: req.body.text,
     };
     categoryRepository.append(category);
-    res.redirect('/notes');
+    res.redirect(`${BASE_DIR}/notes`);
 };

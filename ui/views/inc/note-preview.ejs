@@ -1,7 +1,7 @@
                     <div class="mt-4 px-5 py-4 border rounded">
                         <!-- <h3 class="mb-5"><a href="/notes/<%= note.noteId %>" class="text-dark"><%= note.noteTitle %></a></h3> -->
-                        <h3><a href="/notes/<%= note.noteId %>"><%= note.noteTitle %></a></h3>
+                        <h3><a href="<%= BASE_DIR %>/notes/<%= note.noteId %>"><%= note.noteTitle %></a></h3>
                         <!-- <hr> -->
-                        <a class="mt-3 btn btn-outline-secondary" href="/admin/edit-note/<%= note.noteId %>" role="button">edit</a>
+                        <a class="mt-3 btn btn-outline-secondary" href="<%= BASE_DIR %>/admin/edit-note/<%= note.noteId %>" role="button">edit</a>
                         <!-- <div class="badge bg-secondary">put tags here</div> -->
                     </div>
