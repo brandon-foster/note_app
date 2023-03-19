@@ -106,3 +106,32 @@ exports.getLogout = (req, res, next) => {
     req.session.isLoggedIn = false;
     res.redirect(`${BASE_DIR}/notes`);
 }
+
+exports.getDashboard = (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect(`${BASE_DIR}/notes`);
+    }
+    res.render('admin/dashboard', viewBuilder()
+        .title('Dashboard')
+        .navItems(navItems)
+        .activeNavItem(6)
+        .isLoggedIn(req.session.isLoggedIn)
+        .build()
+    );
+}
+
+exports.getNoteList = async (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect(`${BASE_DIR}/notes`);
+    }
+    const noteList = await noteRepository.fetchAll();
+    res.json(noteList);
+};
+
+exports.getCategoryList = async (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect(`${BASE_DIR}/notes`);
+    }
+    const categoryList = await categoryRepository.fetchAll();
+    res.json(categoryList);
+};

@@ -36,6 +36,12 @@ module.exports = [
         displayWhen: IS_NOT_LOGGED_IN,
     },
     {
+        id: 6,
+        href: `${BASE_DIR}/admin/dashboard`,
+        displayText: 'Dashboard',
+        displayWhen: IS_LOGGED_IN,
+    },
+    {
         id: 5,
         href: `${BASE_DIR}/admin/logout`,
         displayText: 'Logout',
