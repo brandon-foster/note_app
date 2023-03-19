@@ -4,8 +4,13 @@ const rootDir = require('../util/rootDir');
 const fileio = require('../util/fileio');
 
 const filename = path.join(rootDir, 'data', 'noteList.json');
+const BACKUP_FILE = path.join(rootDir, 'data', 'noteList.json.backup');
 
 module.exports = (function createNoteRepository() {
+    function persistList(list) {
+        fileio.writeJson(filename, JSON.stringify(list));
+        fileio.writeJson(BACKUP_FILE, JSON.stringify(list));
+    }
     return {
         fetchAll: async () => {
             const list = await fileio.parseJson(filename);
@@ -14,7 +19,7 @@ module.exports = (function createNoteRepository() {
         append: async function(noteToSave) {
             const list = await fileio.parseJson(filename);
             list.push(noteToSave);
-            fileio.writeJson(filename, JSON.stringify(list));
+            persistList(list);
         },
         findById: async function(id) {
             const list = await fileio.parseJson(filename);
@@ -36,7 +41,7 @@ module.exports = (function createNoteRepository() {
                     n.noteBody = noteToSave.noteBody;
                     return n;
                 });
-            fileio.writeJson(filename, JSON.stringify(list));
+            persistList(list);
         }
     };
 }());
