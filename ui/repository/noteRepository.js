@@ -1,18 +1,18 @@
-const jsonIO = require('../util/fileDbIO');
+const fileDbIO = require('../util/fileDbIO');
 
 module.exports = (function createNoteRepository() {
     return {
         fetchAll: async () => {
-            return await jsonIO.fetchNoteList();
+            return await fileDbIO.fetchNoteList();
         },
         append: async function(noteToSave) {
-            jsonIO.appendToNoteList(noteToSave);
+            fileDbIO.appendToNoteList(noteToSave);
         },
         findById: async function(id) {
-            return jsonIO.findNoteById(id);
+            return fileDbIO.findNoteById(id);
         },
         update: async function(noteToSave) {
-            jsonIO.updateNote(noteToSave);
+            fileDbIO.updateNote(noteToSave);
         }
     };
 }());
