@@ -1,30 +1,15 @@
-const path = require('path');
-
-const rootDir = require('../util/rootDir');
-const fileio = require('../util/fileio');
-
-const FILE = path.join(rootDir, 'data', 'categoryList.json');
-const BACKUP_FILE = `${FILE}.backup`;
+const jsonIO = require('../util/fileDbIO');
 
 module.exports = (function createCategoryRepository() {
     return {
         fetchAll: async () => {
-            const list = await fileio.parseJson(FILE);
-            return list;
+            return await jsonIO.fetchCategoryList();
         },
         findById: async function(id) {
-            const list = await fileio.parseJson(FILE);
-            list.filter(category => category.id === id);
-            if (list.size === 0) {
-                return null;
-            }
-            return list[id];
+           return jsonIO.findCategoryById(id);
         },
-        append: async function(category) {
-            const list = await fileio.parseJson(FILE);
-            list.push(category);
-            fileio.writeJson(FILE, JSON.stringify(list));
-            fileio.writeJson(BACKUP_FILE, JSON.stringify(list));
+        append: async function(categoryToSave) {
+            jsonIO.appendToCategoryList(categoryToSave);
         },
     };
 }());
