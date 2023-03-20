@@ -71,6 +71,7 @@ module.exports = (function createJsonIO() {
     }
 
     return {
+        parseDb: parseDb,
         fetchNoteList: fetchNoteList,
         fetchCategoryList: fetchCategoryList,
         appendToNoteList: appendToNoteList,

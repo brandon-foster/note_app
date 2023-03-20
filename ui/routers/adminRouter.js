@@ -12,7 +12,6 @@ router.post('/add-category', adminController.postAddCategory);
 router.post('/login', adminController.postLogin);
 router.get('/logout', adminController.getLogout);
 router.get('/dashboard', adminController.getDashboard);
-router.get('/noteList', adminController.getNoteList);
-router.get('/categoryList', adminController.getCategoryList);
+router.get('/db', adminController.getDb);
 
 module.exports = router;

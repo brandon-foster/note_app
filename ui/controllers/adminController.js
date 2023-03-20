@@ -2,6 +2,7 @@ const viewBuilder = require('../util/viewBuilder');
 const navItems = require('../config/navItems');
 const categoryRepository = require('../repository/categoryRepository');
 const noteRepository = require('../repository/noteRepository');
+const fileDbIO = require('../util/fileDbIO');
 const BASE_DIR = require('../config/baseDir');
 
 const OWNER = 'alice';
@@ -120,18 +121,10 @@ exports.getDashboard = (req, res, next) => {
     );
 }
 
-exports.getNoteList = async (req, res, next) => {
+exports.getDb = async (req, res, next) => {
     if (!req.session.isLoggedIn) {
         return res.redirect(`${BASE_DIR}/notes`);
     }
-    const noteList = await noteRepository.fetchAll();
-    res.json(noteList);
-};
-
-exports.getCategoryList = async (req, res, next) => {
-    if (!req.session.isLoggedIn) {
-        return res.redirect(`${BASE_DIR}/notes`);
-    }
-    const categoryList = await categoryRepository.fetchAll();
-    res.json(categoryList);
+    const dbObj = await fileDbIO.parseDb();
+    res.json(dbObj);
 };
