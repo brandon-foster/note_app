@@ -2,33 +2,38 @@ const fs = require('fs');
 
 module.exports = (function createFileio() {
 
-
-    const parseJson = (fileLoc) => {
+    function write(destinationFile, stringified) {
         return new Promise((res, rej) => {
-            fs.readFile(fileLoc, (err, buf) => {
-                if (err) {
-                    res([]);
-                }
-                else if (buf.toString().trim().length === 0) {
-                    res([]);
+            fs.writeFile(destinationFile, stringified, err => {
+                if (err !== null) {
+                    console.error(`fs.writeFile(): an error occured`);
+                    console.table(err);
                 }
                 else {
-                    const parsed = JSON.parse(buf.toString());
-                    res(parsed);
+                    res();
                 }
             });
         });
-    };
+    }
 
-    function writeJson(destinationFile, stringified) {
-        fs.writeFile(destinationFile, stringified, err => {
-            if (err !== null) {
-                console.log(`fs.writeFile err: ${err}`);
-            }
+    function read(filename) {
+        return new Promise((res, rej) => {
+            fs.readFile(filename, (err, buf) => {
+                if (err) {
+                    res(null);
+                }
+                else if (buf.toString().trim().length === 0) {
+                    res(null);
+                }
+                else {
+                    res(JSON.parse(buf.toString()));
+                }
+            });
         });
     }
+
     return {
-        parseJson: parseJson,
-        writeJson: writeJson,
+        write: write,
+        read: read,
     };
 }());

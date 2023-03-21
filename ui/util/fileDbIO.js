@@ -1,19 +1,54 @@
 const path = require('path');
+const fs = require('fs');
 const fileio = require('./fileio');
 const rootDir = require('./rootDir');
 const FILE = path.join(rootDir, 'data', 'db.json');
 const BACKUP_FILE = `${FILE}.backup`;
 
-
 module.exports = (function createJsonIO() {
 
+    function createDb() {
+        return new Promise((res, rej) => {
+            const json = JSON.stringify({
+                noteList: [],
+                categoryList: [],
+            });
+            fileio.write(FILE, json)
+                .then(() => {
+                    res()
+                });
+        });
+    }
+
+    function readDb() {
+        return new Promise((res, rej) => {
+            fileio.read(FILE)
+                .then((db) => {
+                    res(db);
+                });
+        });
+    }
+
     async function parseDb() {
-        return await fileio.parseJson(FILE);
+        return new Promise((res, rej) => {
+            readDb().then(db => {
+                if (db === null) {
+                    createDb().then(() => {
+                        readDb().then(db => {
+                            res(db);
+                        });
+                    });
+                }
+                else {
+                    res(db);
+                }
+            });
+        });
     }
 
     function persistDb(db) {
-        fileio.writeJson(FILE, JSON.stringify(db));
-        fileio.writeJson(BACKUP_FILE, JSON.stringify(db));
+        fileio.write(FILE, JSON.stringify(db));
+        fileio.write(BACKUP_FILE, JSON.stringify(db));
     }
 
     async function fetchNoteList() {
