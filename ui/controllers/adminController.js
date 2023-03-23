@@ -27,13 +27,14 @@ exports.postAddNote = async (req, res, next) => {
         return res.redirect(`${BASE_DIR}/notes`);
     }
     const noteList = await noteRepository.fetchAll();
+    const noteId = noteList.length;
     noteRepository.append({
-        noteId: noteList.length,
+        noteId: noteId,
         noteTitle: req.body.noteTitle,
         noteCategory: req.body.noteCategory,
         noteBody: req.body.noteBody,
     });
-    res.redirect(`${BASE_DIR}/notes`);
+    res.redirect(`${BASE_DIR}/notes/${noteId}`);
 }
 
 exports.getEditNote = async (req, res, next) => {
@@ -66,7 +67,7 @@ exports.postEditNote = async (req, res, next) => {
     foundNote.noteCategory = req.body.noteCategory;
     foundNote.noteBody = req.body.noteBody;
     noteRepository.update(foundNote);
-    res.redirect(`${BASE_DIR}/notes`);
+    res.redirect(`${BASE_DIR}/notes/${foundNote.noteId}`);
 };
 
 exports.getAddCategory = (req, res, next) => {
@@ -90,6 +91,7 @@ exports.postAddCategory = async (req, res, next) => {
     const category = {
         id: cats.length,
         text: req.body.text,
+        isPrivate: req.body['set-private'] !== undefined,
     };
     categoryRepository.append(category);
     res.redirect(`${BASE_DIR}/notes`);

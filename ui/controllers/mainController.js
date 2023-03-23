@@ -6,6 +6,7 @@ const navItems = require('../config/navItems');
 const noteRepository = require('../repository/noteRepository');
 const categoryRepository = require('../repository/categoryRepository');
 const prettifySegment = require('../util/prettifySegment');
+const BASE_DIR = require('../config/baseDir');
 
 const converter = new showdown.Converter();
 
@@ -25,22 +26,38 @@ exports.getIndexView = (req, res, next) => {
         .title('Home')
         .navItems(navItems)
         .activeNavItem(0)
+        .isLoggedIn(req.session.isLoggedIn)
         .build()
     );
 };
 
 exports.getNotesView = async (req, res, next) => {
+    const predicateDoDisplayCategory = function(cat) {
+        return req.session.isLoggedIn || !cat.isPrivate;
+    }
     const categoryList = await categoryRepository.fetchAll();
     const rawNoteList = await noteRepository.fetchAll();
-    categoryList.forEach(c => {
-        c.preparedNoteList = [];
-        c.preparedNoteList = rawNoteList
-            .map((note, i) => enhanceNote(note, categoryList))
-            .filter(n => parseInt(n.noteCategory) === c.id)
-        c.textEncoded = prettifySegment(c.text);
-        return c;
+    (function prepareCats() {
+        return new Promise((res, rej) => {
+            res(
+                categoryList.filter(c => predicateDoDisplayCategory(c))
+                .map(c => {
+                    c.preparedNoteList = [];
+                    c.preparedNoteList = rawNoteList
+                        .filter(n => {
+                            return parseInt(n.noteCategory) === c.id
+                        })
+                        .map((note, i) => {
+                            return enhanceNote(note, categoryList);
+                        });
+                    c.textEncoded = prettifySegment(c.text);
+                    return c;
+                })
+            );
+        });
+    }()).then(cats => {
+        performRender(cats);
     });
-    performRender(categoryList);
     function performRender(categoryList) {
         res.render('notes', viewBuilder()
             .title('Notes')
@@ -55,6 +72,12 @@ exports.getNotesView = async (req, res, next) => {
 
 exports.getNoteDetailView = async (req, res, next) => {
     const note = await noteRepository.findById(parseInt(req.params.id));
+    const cat = await categoryRepository.findById(parseInt(note.noteCategory));
+    if (cat.isPrivate) {
+        if (!req.session.isLoggedIn) {
+            return res.redirect(`${BASE_DIR}/notes`);
+        }
+    }
     note.noteBody = converter.makeHtml(note.noteBody);
     const categoryList = await categoryRepository.fetchAll();
     function extractDetailNavItems(noteBody) {

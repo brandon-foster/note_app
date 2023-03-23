@@ -2,6 +2,8 @@
             <div class='row mt-5 mb-5'>
                     <form class="mb-3" action="<%= BASE_DIR %>/admin/add-category" method="POST">
                         <input type="text" name="text" value="" id="text" class="form-control" placeholder="category" autofocus>
+                        <input type="checkbox" name="set-private" value="" class="form-check-input" id="set-private-checkbox" aria-label="Checkbox for setting a category to be private">
+                        <label for="set-private-checkbox" class="form-label">private</label>
                         <input type="submit" value="go" class="btn btn-primary">
                     </form>
 <%- include("../inc/end.ejs") %>

@@ -48,7 +48,7 @@ module.exports = (function createJsonIO() {
 
     function persistDb(db) {
         fileio.write(FILE, JSON.stringify(db));
-        fileio.write(BACKUP_FILE, JSON.stringify(db));
+        fileio.write(`${BACKUP_FILE}.${Date.now()}`, JSON.stringify(db));
     }
 
     async function fetchNoteList() {
