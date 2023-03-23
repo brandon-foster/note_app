@@ -41,11 +41,9 @@ window.addEventListener('load', function() {
     const h2List = document.getElementsByTagName('h2');
     [...h2List].forEach(h2 => {
         setupThreshhold(h2, function logEnter(elem) {
-            elem.style.color = 'pink';
             sideNavManager.setActiveViaScroll(elem.id);
         },
         function logExit(elem) {
-            elem.style.color = null;
             sideNavManager.setActiveViaScroll(elem.id);
         });
     });
