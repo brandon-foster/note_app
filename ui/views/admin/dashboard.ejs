@@ -2,6 +2,10 @@
             <div class='row mt-5 mb-5'>
                 <div class='col-12'>
                     <h2>Dashboard</h2>
+                    <form action="<%= BASE_DIR %>/admin/db" method="post" enctype="multipart/form-data">
+                        <input class="form-control" type="file" name="db">
+                        <input class="form-control btn btn-primary" type="submit" value="go">
+                    </form>
                     <a class="btn btn-secondary" href="<%= BASE_DIR %>/admin/db" role="button" download>db.json</a>
                 </div>
 <%- include("../inc/end.ejs") %>

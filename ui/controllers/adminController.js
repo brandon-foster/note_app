@@ -130,3 +130,7 @@ exports.getDb = async (req, res, next) => {
     const dbObj = await fileDbIO.parseDb();
     res.json(dbObj);
 };
+
+exports.postDb = (req, res, next) => {
+    res.redirect(`${BASE_DIR}/notes`);
+};
