@@ -1,8 +1,8 @@
 version: '3.8'
 services:
   traefik:
-    image: "traefik:v2.9"
     container_name: "notes_traefik"
+    image: "traefik:v2.9"
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=true"
@@ -25,3 +25,5 @@ services:
       - "traefik.http.routers.ui-router.rule=PathPrefix(`/napp`)"
       - "traefik.http.routers.ui-router.service=ui-service"
       - "traefik.http.services.ui-service.loadbalancer.server.port=3000"
+    environment:
+      - BASE_DIR=/napp

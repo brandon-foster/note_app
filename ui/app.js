@@ -1,4 +1,5 @@
 const path = require('path');
+const process = require('process');
 
 const express = require('express');
 const session = require('express-session');
@@ -24,3 +25,4 @@ app.use(`${BASE_DIR}/admin`, adminRouter);
 app.use(`${BASE_DIR}/`, mainRouter);
 app.use(errorController.get404);
 app.listen(3000);
+console.log(`process.env.BASE_DIR: ${process.env.BASE_DIR}`);
